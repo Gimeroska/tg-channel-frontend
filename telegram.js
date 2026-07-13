@@ -66,14 +66,23 @@
 })();
 
 
-// Обновление аватарок (кеш сбрасывается 1 раз в день, а не при каждом заходе)
 document.addEventListener('DOMContentLoaded', function() {
+    // Определяем, мобильное ли устройство
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
     document.querySelectorAll('.tg-img').forEach(img => {
-        const src = img.getAttribute('src');
-        if (src && src.includes('t.me/i/userpic')) {
-            // Добавляем метку дня (меняется раз в сутки) и lazy-загрузку
-            img.loading = 'lazy';
-            const dayStamp = Math.floor(Date.now() / 86400000); // 86400000 = 1 день в мс
+        let src = img.getAttribute('src');
+        if (!src || !src.includes('t.me/i/userpic')) return;
+
+        if (isMobile) {
+            // На телефонах – через прокси (обход блокировки)
+            src = 'https://images.weserv.nl/?url=' + encodeURIComponent(src);
+            // Сбрасываем кэш раз в день (чтобы не грузить сеть)
+            const dayStamp = Math.floor(Date.now() / 86400000);
+            img.src = src + '&v=' + dayStamp;
+        } else {
+            // На ПК – прямая ссылка, но с кэшем раз в день (чтобы обновлять аватарки, если поменяются)
+            const dayStamp = Math.floor(Date.now() / 86400000);
             img.src = src + (src.includes('?') ? '&' : '?') + 'v=' + dayStamp;
         }
     });
