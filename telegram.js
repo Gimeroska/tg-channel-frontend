@@ -66,12 +66,15 @@
 })();
 
 
+// Обновление аватарок (кеш сбрасывается 1 раз в день, а не при каждом заходе)
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.tg-img').forEach(img => {
         const src = img.getAttribute('src');
         if (src && src.includes('t.me/i/userpic')) {
-            // Добавляем временную метку, чтобы сбросить кеш браузера
-            img.src = src + (src.includes('?') ? '&' : '?') + 'v=' + Date.now();
+            // Добавляем метку дня (меняется раз в сутки) и lazy-загрузку
+            img.loading = 'lazy';
+            const dayStamp = Math.floor(Date.now() / 86400000); // 86400000 = 1 день в мс
+            img.src = src + (src.includes('?') ? '&' : '?') + 'v=' + dayStamp;
         }
     });
 });
