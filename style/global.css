@@ -1,0 +1,49 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+}
+
+body {
+  background-color: #666;
+  background-image: url(../image/background-tg.svg);
+  background-size: cover;
+  background-repeat: repeat-y;
+  /* max-width: 1600px; */
+  width: 100%;
+  min-height: 100vh;
+  justify-self: center;
+  padding: 0 10px;
+  margin: 0;
+  font-family: "Roboto";
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+li,
+blockquote {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  width: 100%;
+}
+
+button {
+  font: inherit;
+}
